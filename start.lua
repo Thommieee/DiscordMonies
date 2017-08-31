@@ -14,8 +14,10 @@ local boarddata = require('./board.lua')
 local Sets = boarddata.Sets
 local Board = boarddata.Board
 local Properties = boarddata.Properties
+local Chance = boarddata.Chance
+local Chest = boarddata.Chest
 
-function move(playerid, moves)
+function move(playerid, moves, m1, m2)
 local gameid = Players[playerid].Game
 if Players[playerid].Position + moves > #Board then
 local total = Players[playerid].Position + moves
@@ -25,7 +27,7 @@ print(Players[playerid].Position)
 else
 Players[playerid].Position = Players[playerid].Position + moves
 end
-
+if m1 ~= m2 then
 Players[playerid].isReady = false
 print(Players[playerid])
 print(Players[playerid].Order)
@@ -51,6 +53,7 @@ Timer.setTimeout(50, function() Players[i].Player:send("It is your turn.") end)
 end
 end
 
+end
 end
 
 end
@@ -138,6 +141,10 @@ client:on('messageCreate', function(message)
 		else
 			message:reply("You're not in a game...")
 		end
+	elseif message.content == "mb:chest" then
+		announce(Players[message.author.id].Game, Chest[ math.random( 0, #Chest - 1 ) ])
+	elseif message.content == "mb:chance" then
+		announce(Players[message.author.id].Game, Chance[ math.random( 0, #Chance - 1 ) ])		
 	elseif message.content == "mb:start" then
 		if Players[message.author.id] then
 			if Players[message.author.id].Leader == true then
@@ -155,7 +162,48 @@ client:on('messageCreate', function(message)
 			message:reply("You're not in a game...")
 		end
 	elseif string.sub(message.content, 1, 8) == "mb:chat " then
-		announce(Players[message.author.id].Game, string.sub(message.content, 9))
+		announce(Players[message.author.id].Game, message.author.username.."("..message.author.id.."): "..string.sub(message.content, 9))
+	elseif string.sub(message.content, 1, 8) == "mb:info " then
+		for i,v in pairs(Properties) do
+			if v.name == string.sub(message.content, 9) then
+				local owner;
+				if v.owner then
+					owner = Players[v.owner].Username
+				else
+					owner = "Nobody"
+				end
+				local embed = embeds.create("Property Info")
+				embed.description = "Information for card: "..v.name
+				embeds.field(embed, "Owned by", owner)
+				embeds.field(embed, "Price", v.price)
+				embeds.field(embed, "Rent", v.cost)
+				message.channel:send({embed=embed})
+			end
+		end
+	elseif string.sub(message.content, 1,7) == "mb:add " then
+		if tonumber(string.sub(message.content, 8)) then
+			Players[message.author.id].Cash = Players[message.author.id].Cash + tonumber(string.sub(message.content, 8))
+			announce(Players[message.author.id].Game, message.author.username.." has taken $"..string.sub(message.content, 8))
+		end
+	elseif string.sub(message.content,1, 8) == "mb:move " then
+		for i,v in pairs(Board) do
+			if v.name == string.sub(message.content,9) then
+				Players[message.author.id].Position = i
+				announce(Players[message.author.id].Game, message.author.username.." has moved to: "..v.name)
+			end
+		end
+	elseif string.sub(message.content,1,8) == "mb:getp " then
+		for i,v in pairs(Properties) do
+			if v.name == string.sub(message.content,9) and v.owner == nil then
+				v.owner = message.author.id
+				announce(Players[message.author.id].Game, message.author.username.." has claimed "..v.name)
+			end
+		end
+	elseif string.sub(message.content, 1,7) == "mb:rem " then
+                if tonumber(string.sub(message.content, 8)) then
+                        Players[message.author.id].Cash = Players[message.author.id].Cash - tonumber(string.sub(message.content, 8))
+			announce(Players[message.author.id].Game, message.author.username.." has removed $"..string.sub(message.content, 8))
+                end
 	elseif message.content == "mb:end" then
                 if Players[message.author.id] then
                         if Players[message.author.id].Leader == true then
@@ -172,10 +220,23 @@ client:on('messageCreate', function(message)
                 end
         elseif message.content == "mb:roll" then
 		if Players[message.author.id] and Players[message.author.id].isReady == true then
-			local roll = math.random(2,12)
+			local roll1 = math.random(1,6)
+			local roll2 = math.random(1,6)
+			local roll = roll1 + roll2
+			local footertext = tostring(roll1.." + "..roll2.." = "..roll)
 			local embed = embeds.create(Players[message.author.id].Username.." rolled a "..roll.."...")
-			move(message.author.id, roll)
+			embed.footer = {text=footertext}
+			move(message.author.id, roll, roll1, roll2)
 			embed.description = "...which means they landed on: "..Board[Players[message.author.id].Position].name
+			local prop = Properties[Board[Players[message.author.id].Position].id]
+			local owner = "";
+			if prop and prop.owner then
+				owner = Players[prop.owner].Username
+			else
+				owner = "Nobody"
+			end
+			--local owner = Players[Properties[Board[Players[message.author.id].Position].id].owner].username or "Nobody"
+			embeds.field(embed, "Owner", owner)
 			announce(Players[message.author.id].Game, {embed=embed})
 		else
 			message:reply("You're not in a game, or it's not your turn.")
