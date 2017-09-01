@@ -6,7 +6,7 @@ Sets.Red = {size=3}
 Sets.Yellow = {size=3}
 Sets.Green = {size=3}
 Sets.Blue = {size=2}
-
+Sets.Station = {size=4}
 local Properties = {};
 
 --// Normal properties
@@ -32,6 +32,10 @@ Properties[20] = {name="Green 2", price=300, cost=26, set="Green"}
 Properties[21] = {name="Green 3", price=320, cost=28, set="Green"}
 Properties[22] = {name="Blue 1", price=350, cost=35, set="Blue"}
 Properties[23] = {name="Blue 2", price=400, cost=50, set="Blue"}
+Properties[24] = {name="South Station", price=200, set="Station"}
+Properties[25] = {name="North Station", price=200, set="Station"}
+Properties[26] = {name="East Station", price=200, set="Station"}
+Properties[27] = {name="West Station", price=200, set="Station"}
 
 local Board = {};
 Board[1] = {name="Start", type="static"}
@@ -39,7 +43,7 @@ Board[2] = {name="Brown 1", type="property", id=1}
 Board[3] = {name="Community Chest 1", type="chest"}
 Board[4] = {name="Brown 2", type="property", id=2}
 Board[5] = {name="Income Tax", type="tax", cost=200}
-Board[6] = {name="South Station", type="railroad"}
+Board[6] = {name="South Station", type="railroad", id=24}
 Board[7] = {name="Light Blue 1", type="property", id=4}
 Board[8] = {name="Chance 1", type="chance"}
 Board[9] = {name="Light Blue 2", type="property", id=5}
@@ -49,7 +53,7 @@ Board[12] = {name="Pink 1", type="property", id=7}
 Board[13] = {name="Electric Company", type="company"}
 Board[14] = {name="Pink 2", type="property", id=8}
 Board[15] = {name="Pink 3", type="property", id=9}
-Board[16] = {name="West Station", type="railroad"}
+Board[16] = {name="West Station", type="railroad", id=27}
 Board[17] = {name="Orange 1", type="property", id=10}
 Board[18] = {name="Community Chest 2", type="chest"}
 Board[19] = {name="Orange 2", type="property", id=11}
@@ -59,17 +63,17 @@ Board[22] = {name="Red 1", type="property", id=13}
 Board[23] = {name="Chance 2", type="chance"}
 Board[24] = {name="Red 2", type="property", id=14}
 Board[25] = {name="Red 3", type="property", id=15}
-Board[26] = {name="North Station", type="railroad"}
+Board[26] = {name="North Station", type="railroad", id=25}
 Board[27] = {name="Yellow 1", type="property", id=16}
 Board[28] = {name="Yellow 2", type="property", id=17}
 Board[29] = {name="Waterworks", type="company"}
-Board[30] = {name="Yello 3", type="property", id=18}
+Board[30] = {name="Yellow 3", type="property", id=18}
 Board[31] = {name="Go To Jail", type="gotojail"}
 Board[32] = {name="Green 1", type="property", id=19}
 Board[33] = {name="Green 2", type="property", id=20}
 Board[34] = {name="Community Chest 3", type="chest"}
 Board[35] = {name="Green 3", type="property", id=21}
-Board[36] = {name="East Station", type="railroad"}
+Board[36] = {name="East Station", type="railroad", id=26}
 Board[37] = {name="Chance 3", type="chance"}
 Board[38] = {name="Blue 1", type="property", id=22}
 Board[39] = {name="Luxury Tax", type="tax", cost=100}
@@ -83,32 +87,32 @@ Chance[3] = "Advance to nearest Utility. If unowned, you may buy it from the Ban
 Chance[4] = "Advance to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank."
 Chance[5] = "Advance to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank."
 Chance[6] = "Bank pays you dividend of $50"
-Chance[7] = "Go to Jail – Go directly to Jail – Do not pass Go, do not collect $200"
+Chance[7] = "Go to Jail - Go directly to Jail - Do not pass Go, do not collect $200"
 Chance[8] = "Go back 3 spaces"
-Chance[9] = "Make general repairs on all your property – For each house pay $25 – For each hotel $100"
+Chance[9] = "Make general repairs on all your property - For each house pay $25 - For each hotel $100"
 Chance[10] = "Pay poor tax of $15"
 Chance[11] = "Take a trip to Reading Railroad, if you pass Go, collect $200"
 Chance[12] = "Advance to Blue 2"
-Chance[13] = "You have been elected Chairman of the Board – Pay each player $50"
-Chance[14] = "Your building loan matures – Collect $150"
+Chance[13] = "You have been elected Chairman of the Board - Pay each player $50"
+Chance[14] = "Your building loan matures - Collect $150"
 
 Chest = {};
 
 Chest[0] = "Advance to Go (Collect $200)"
-Chest[1] = "Bank error in your favor – Collect $200"
+Chest[1] = "Bank error in your favor - Collect $200"
 Chest[2] = "Doctor's fees - Pay $50"
 Chest[3] = "From sale of stock you get $50"
-Chest[4] = "Go to Jail – Go directly to jail – Do not pass Go – Do not collect $200"
-Chest[5] = "Grand Opera Night – Collect $50 from every player for opening night seats"
+Chest[4] = "Go to Jail - Go directly to jail – Do not pass Go – Do not collect $200"
+Chest[5] = "Grand Opera Night - Collect $50 from every player for opening night seats"
 Chest[6] = "Holiday Fund matures - Receive $100"
 Chest[7] = "Income tax refund - Receive $20"
 Chest[8] = "It's your birthday - Collect $10 from every player."
-Chest[9] = "Life insurance matures – Collect $100"
+Chest[9] = "Life insurance matures - Collect $100"
 Chest[10] = "Pay hospital fees of $100"
 Chest[11] = "Pay school fees of $150"
 Chest[12] = "Receive $25 consultancy fee"
-Chest[13] = "You are assessed for street repairs – $40 per house – $115 per hotel"
-Chest[14] = "You have won second prize in a beauty contest – Collect $10"
+Chest[13] = "You are assessed for street repairs - $40 per house - $115 per hotel"
+Chest[14] = "You have won second prize in a beauty contest - Collect $10"
 Chest[15] = "You inherit $100"
 
 

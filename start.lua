@@ -10,31 +10,29 @@ client:on('ready', function()
     
 end)
 
-local boarddata = require('./board.lua')
-local Sets = boarddata.Sets
-local Board = boarddata.Board
-local Properties = boarddata.Properties
-local Chance = boarddata.Chance
-local Chest = boarddata.Chest
+local boarddata = require('./boards/board.lua')
 
 function move(playerid, moves, m1, m2)
+local Board = Games[Players[playerid].Game].Board
 local gameid = Players[playerid].Game
 if Players[playerid].Position + moves > #Board then
 local total = Players[playerid].Position + moves
-print(Players[playerid].Position)
+--print(Players[playerid].Position)
 Players[playerid].Position = total-#Board
-print(Players[playerid].Position)
+--print(Players[playerid].Position)
+announce(Players[playerid].Game, Players[playerid].Username.." has passed Go and has received $200")
+Players[playerid].Cash = Players[playerid].Cash + 200
 else
 Players[playerid].Position = Players[playerid].Position + moves
 end
 if m1 ~= m2 then
 Players[playerid].isReady = false
-print(Players[playerid])
-print(Players[playerid].Order)
-print(Players[playerid].Game)
-print(Games[gameid])
-print(Games[gameid].order)
-print(#Games[gameid].order)
+--print(Players[playerid])
+--print(Players[playerid].Order)
+--print(Players[playerid].Game)
+--print(Games[gameid])
+--print(Games[gameid].order)
+--print(#Games[gameid].order)
 if Players[playerid].Order == #Games[gameid].order then
 
 for i,v in pairs(Games[gameid].players) do
@@ -86,6 +84,11 @@ client:on('messageCreate', function(message)
 					local gamedata = {};
 					gamedata.players = {}
 					gamedata.order = {};
+					gamedata.Board = boarddata.Board
+					gamedata.Sets = boarddata.Sets
+					gamedata.Properties = boarddata.Properties
+					gamedata.Chest = boarddata.Chest
+					gamedata.Chance = boarddata.Chance
 					gamedata.order[1] = message.author.id
 					gamedata.players[message.author.id] = playerdata
 					gamedata.ID = id
@@ -131,21 +134,35 @@ client:on('messageCreate', function(message)
 	end
 	if commandran == false then
 	if message.guild == nil then
-	if message.content == "mb:stats" then
+	if message.content == "stats" then
 		if Players[message.author.id] then
 			local playerdata = Players[message.author.id]
 			local embed = embeds.create("Game Details", 1146986)
 			embeds.field(embed, "Game ID", playerdata.Game, true)
-			embeds.field(embed, "Cash", playerdata.Cash.."$", true)
+			embeds.field(embed, "Cash", "$"..playerdata.Cash, true)
 			message.channel:send({embed=embed})
 		else
 			message:reply("You're not in a game...")
 		end
-	elseif message.content == "mb:chest" then
-		announce(Players[message.author.id].Game, Chest[ math.random( 0, #Chest - 1 ) ])
-	elseif message.content == "mb:chance" then
-		announce(Players[message.author.id].Game, Chance[ math.random( 0, #Chance - 1 ) ])		
-	elseif message.content == "mb:start" then
+	elseif string.sub(message.content,1,5) == "load " then
+		if Players[message.author.id] and Games[Players[message.author.id].Game].started == false then
+		local boards = {["botarena"]="./boards/victorsboard.lua",["default"]="./boards/board.lua",["dutch"]="./boards/dutch.lua"}
+		if boards[string.sub(message.content,6)] then
+			announce(Players[message.author.id].Game, "Loading board: "..string.sub(message.content,6))
+			local game = Games[Players[message.author.id].Game]
+			local bdata = require(boards[string.sub(message.content,6)])
+			game.Board = bdata.Board
+			game.Sets = bdata.Sets
+			game.Properties = bdata.Properties
+			game.Chance = bdata.Chance
+			game.Chest = bdata.Chest
+		end
+		end
+	elseif message.content == "chest" then
+		announce(Players[message.author.id].Game, Games[Players[message.author.id].Game].Chest[ math.random( 0, #Games[Players[message.author.id].Game].Chest - 1 ) ])
+	elseif message.content == "chance" then
+		announce(Players[message.author.id].Game, Games[Players[message.author.id].Game].Chance[ math.random( 0, #Games[Players[message.author.id].Game].Chance - 1 ) ])		
+	elseif message.content == "start" then
 		if Players[message.author.id] then
 			if Players[message.author.id].Leader == true then
 				Games[Players[message.author.id].Game].started = true;
@@ -161,11 +178,13 @@ client:on('messageCreate', function(message)
 		else
 			message:reply("You're not in a game...")
 		end
-	elseif string.sub(message.content, 1, 8) == "mb:chat " then
-		announce(Players[message.author.id].Game, message.author.username.."("..message.author.id.."): "..string.sub(message.content, 9))
-	elseif string.sub(message.content, 1, 8) == "mb:info " then
-		for i,v in pairs(Properties) do
-			if v.name == string.sub(message.content, 9) then
+	elseif string.sub(message.content, 1, 5) == "chat " then
+		if Players[message.author.id] then
+		announce(Players[message.author.id].Game, message.author.username.." ("..message.author.id.."): "..string.sub(message.content, 6))
+		end
+	elseif string.sub(message.content, 1, 5) == "info " then
+		for i,v in pairs(Games[Players[message.author.id].Game].Properties) do
+			if v.name == string.sub(message.content, 6) then
 				local owner;
 				if v.owner then
 					owner = Players[v.owner].Username
@@ -180,31 +199,45 @@ client:on('messageCreate', function(message)
 				message.channel:send({embed=embed})
 			end
 		end
-	elseif string.sub(message.content, 1,7) == "mb:add " then
-		if tonumber(string.sub(message.content, 8)) then
-			Players[message.author.id].Cash = Players[message.author.id].Cash + tonumber(string.sub(message.content, 8))
-			announce(Players[message.author.id].Game, message.author.username.." has taken $"..string.sub(message.content, 8))
+	elseif string.sub(message.content, 1,4) == "add " then
+		if tonumber(string.sub(message.content, 5)) then
+			Players[message.author.id].Cash = Players[message.author.id].Cash + tonumber(string.sub(message.content, 5))
+			announce(Players[message.author.id].Game, message.author.username.." has taken $"..string.sub(message.content, 5))
 		end
-	elseif string.sub(message.content,1, 8) == "mb:move " then
+	elseif string.sub(message.content,1, 5) == "move " then
+		local Board = Games[Players[message.author.id].Game].Board
 		for i,v in pairs(Board) do
-			if v.name == string.sub(message.content,9) then
+			if v.name == string.sub(message.content,6) then
 				Players[message.author.id].Position = i
 				announce(Players[message.author.id].Game, message.author.username.." has moved to: "..v.name)
 			end
 		end
-	elseif string.sub(message.content,1,8) == "mb:getp " then
+	elseif string.sub(message.content,1,4) == "getp" then
+		local Board = Games[Players[message.author.id].Game].Board
+		local Properties = Games[Players[message.author.id].Game].Properties
+--		print(string.sub(message.content,6))
+		if string.sub(message.content,6) == "" then
+		--	print("test")
+		--	print(Board[Players[message.author.id].Position])
+			if Board[Players[message.author.id].Position].id then
+				Players[message.author.id].Cash = Players[message.author.id].Cash - Properties[Board[Players[message.author.id].Position].id].price
+				Games[Players[message.author.id].Game].Properties[Games[Players[message.author.id].Game].Board[Players[message.author.id].Position].id].owner = message.author.id
+				announce(Players[message.author.id].Game, message.author.username.." has bought "..Board[Players[message.author.id].Position].name)
+			end
+		else
 		for i,v in pairs(Properties) do
-			if v.name == string.sub(message.content,9) and v.owner == nil then
+			if v.name == string.sub(message.content,6) and v.owner == nil then
 				v.owner = message.author.id
 				announce(Players[message.author.id].Game, message.author.username.." has claimed "..v.name)
 			end
 		end
-	elseif string.sub(message.content, 1,7) == "mb:rem " then
-                if tonumber(string.sub(message.content, 8)) then
-                        Players[message.author.id].Cash = Players[message.author.id].Cash - tonumber(string.sub(message.content, 8))
-			announce(Players[message.author.id].Game, message.author.username.." has removed $"..string.sub(message.content, 8))
+		end
+	elseif string.sub(message.content, 1,4) == "rem " then
+                if tonumber(string.sub(message.content, 5)) then
+                        Players[message.author.id].Cash = Players[message.author.id].Cash - tonumber(string.sub(message.content, 5))
+			announce(Players[message.author.id].Game, message.author.username.." has removed $"..string.sub(message.content, 5))
                 end
-	elseif message.content == "mb:end" then
+	elseif message.content == "end" then
                 if Players[message.author.id] then
                         if Players[message.author.id].Leader == true then
 				local id = Players[message.author.id].Game
@@ -218,7 +251,7 @@ client:on('messageCreate', function(message)
                 else
                         message:reply("You're not in a game...")
                 end
-        elseif message.content == "mb:roll" then
+        elseif message.content == "roll" then
 		if Players[message.author.id] and Players[message.author.id].isReady == true then
 			local roll1 = math.random(1,6)
 			local roll2 = math.random(1,6)
@@ -227,8 +260,8 @@ client:on('messageCreate', function(message)
 			local embed = embeds.create(Players[message.author.id].Username.." rolled a "..roll.."...")
 			embed.footer = {text=footertext}
 			move(message.author.id, roll, roll1, roll2)
-			embed.description = "...which means they landed on: "..Board[Players[message.author.id].Position].name
-			local prop = Properties[Board[Players[message.author.id].Position].id]
+			embed.description = "...which means they landed on: "..Games[Players[message.author.id].Game].Board[Players[message.author.id].Position].name
+			local prop = Games[Players[message.author.id].Game].Properties[Games[Players[message.author.id].Game].Board[Players[message.author.id].Position].id]
 			local owner = "";
 			if prop and prop.owner then
 				owner = Players[prop.owner].Username
@@ -241,6 +274,10 @@ client:on('messageCreate', function(message)
 		else
 			message:reply("You're not in a game, or it's not your turn.")
 		end
+	else
+		if Players[message.author.id] then
+                announce(Players[message.author.id].Game, message.author.username.." ("..message.author.id.."): "..message.content)
+                end
 	end
 	end
 	end
