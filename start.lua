@@ -274,7 +274,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     --if owner == nil then owner = "Nobody" end
     embeds.field(embed, "Owner", owner)
     
-    embeds.field(embed, "Current balance", "$"..Players[message.author.id].Cash
+    embeds.field(embed, "Current balance", "$"..Players[message.author.id].Cash)
     
     if (newprop and newprop.owner) then
         embeds.field(embed, "Amount Owing", newprop.cost)
