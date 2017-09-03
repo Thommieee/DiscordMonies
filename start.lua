@@ -266,6 +266,12 @@ end},
             --if owner == nil then owner = "Nobody" end
                         embeds.field(embed, "Owner", owner)
                         
+                        if (newprop and newprop.owner) then
+                                embeds.field(embed, "Rent", v.cost)
+                        elseif (newprop) then
+                                embeds.field(embed, "Amount Owing", v.price)
+                        end
+                        
                         announce(Players[message.author.id].Game, {embed=embed})
                 else
                         message:reply("You're not in a game, or it's not your turn.")
