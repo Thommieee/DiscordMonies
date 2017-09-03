@@ -280,7 +280,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     if (newprop and newprop.owner) and Players[message.author.id].isInJail == false then
         embeds.field(embed, "Amount Owing", newprop.cost)
         embeds.field(embed, "Next steps", "Remove the amount owing from your balance using the `rem` command. Control then passes onto the next player.");
-    elseif (newprop) then
+    elseif (newprop and newprop.price) then
         embeds.field(embed, "Price", newprop.price)
         embeds.field(embed, "Next steps", "To purchase this property, use `getp`. Otherwise, state that you are putting this property up for auction and start a bid through chat!");
     end
