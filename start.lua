@@ -36,35 +36,16 @@ local boarddata = require('./boards/board.lua')
 function getCurrentPlayer(gameid)
     for i,v in pairs(Games[gameid].players) do
         if v.isReady == true then
-            return v
+            return v, i
         end
     end
 end
 
-function move(playerid, moves, m1, m2)
-    local Board = Games[Players[playerid].Game].Board
-    local gameid = Players[playerid].Game
-    if Players[playerid].Position + moves > #Board then
-        local total = Players[playerid].Position + moves
-        --print(Players[playerid].Position)
-        Players[playerid].Position = total-#Board
-        --print(Players[playerid].Position)
-        announce(Players[playerid].Game, Players[playerid].Username.." has passed Go and has received $200")
-        Players[playerid].Cash = Players[playerid].Cash + 200
-    else
-        Players[playerid].Position = Players[playerid].Position + moves
-    end
-    if m1 ~= m2 then
-        Players[playerid].isReady = false
-        --print(Players[playerid])
-        --print(Players[playerid].Order)
-        --print(Players[playerid].Game)
-        --print(Games[gameid])
-        --print(Games[gameid].order)
-        --print(#Games[gameid].order)
-        if Players[playerid].Order == #Games[gameid].order then
-            
-            for i,v in pairs(Games[gameid].players) do
+function nextturn(gameid)
+    local player, playerid = getCurrentPlayer(gameid)
+    Players[playerid].isReady = false
+    if Players[playerid].Order == #Games[gameid].order then       
+        for i,v in pairs(Games[gameid].players) do
                 if Players[i].Order == 1 then
                     Players[i].isReady = true
                     Timer.setTimeout(50, function() Players[i].Player:send("It is your turn.") end)
@@ -81,8 +62,24 @@ function move(playerid, moves, m1, m2)
             end
             
         end
+end
+
+function move(playerid, moves, m1, m2)
+    local Board = Games[Players[playerid].Game].Board
+    local gameid = Players[playerid].Game
+    if Players[playerid].Position + moves > #Board then
+        local total = Players[playerid].Position + moves
+        --print(Players[playerid].Position)
+        Players[playerid].Position = total-#Board
+        --print(Players[playerid].Position)
+        announce(Players[playerid].Game, Players[playerid].Username.." has passed Go and has received $200")
+        Players[playerid].Cash = Players[playerid].Cash + 200
+    else
+        Players[playerid].Position = Players[playerid].Position + moves
     end
-    
+    if m1 ~= m2 then
+        nextturn(Players[playerid].Game)
+    end
 end
 
 function announce(gameid, message)
@@ -266,7 +263,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         end
     else
         embed.description = "But they're in Jail. And they're staying there."
-        move(message.author.id,0,0,0) --// Trigger the move function so the turn order continues
+        nextturn(Players[message.author.id].Game) --// Trigger the move function so the turn order continues
     end
     local owner = "Bank"
     if newprop and newprop.owner then 
