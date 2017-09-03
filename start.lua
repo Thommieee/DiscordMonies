@@ -37,6 +37,7 @@ function getCurrentPlayer(gameid)
     for i,v in pairs(Games[gameid].players) do
         if v.isReady == true then
             return v
+        end
     end
 end
 
