@@ -277,7 +277,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     
     embeds.field(embed, "Current balance", "$"..Players[message.author.id].Cash)
     
-    if (newprop and newprop.owner) then
+    if (newprop and newprop.owner) and Players[message.author.id] == false then
         embeds.field(embed, "Amount Owing", newprop.cost)
         embeds.field(embed, "Next steps", "Remove the amount owing from your balance using the `rem` command. Control then passes onto the next player.");
     elseif (newprop) then
