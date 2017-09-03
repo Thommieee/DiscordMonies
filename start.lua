@@ -267,9 +267,9 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     embeds.field(embed, "Owner", owner)
     
     if (newprop and newprop.owner) then
-        embeds.field(embed, "Rent", v.cost)
+        embeds.field(embed, "Rent", newprop.cost)
     elseif (newprop) then
-        embeds.field(embed, "Amount Owing", v.price)
+        embeds.field(embed, "Amount Owing", newprop.price)
     end
     
     announce(Players[message.author.id].Game, {embed=embed})
