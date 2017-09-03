@@ -219,7 +219,7 @@ end},
 end},
 {Name="Chat",DMs=true,Usage={"chat"},Description="Allows you to talk to your fellow players",func=function(msg, message)
         if Players[message.author.id] then
-                announce(Players[message.author.id].Game, message.author.username..": "..msg)
+                announce("**"..Players[message.author.id].Game, message.author.username.."**: "..msg)
                 end
 end},
 {Name="Roll",DMs=true,Usage={"roll"},Description="Rolls the dice",func=function(msg, message)
