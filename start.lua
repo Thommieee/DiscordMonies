@@ -33,6 +33,13 @@ end)
 
 local boarddata = require('./boards/board.lua')
 
+function getCurrentPlayer(gameid)
+    for i,v in pairs(Games[gameid].players) do
+        if v.isReady == true then
+            return v
+    end
+end
+
 function move(playerid, moves, m1, m2)
     local Board = Games[Players[playerid].Game].Board
     local gameid = Players[playerid].Game
@@ -233,7 +240,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     
     if roll1 == roll2 then 
         Players[message.author.id].isInJail = false
-        embed = embeds.create(Players[message.author.id].Username.." rolled a "..roll..". **Doubles!**")
+        embed = embeds.create(Players[message.author.id].Username.." rolled a "..roll..". Doubles!")
     else
         embed = embeds.create(Players[message.author.id].Username.." rolled a "..roll..".")
     end
@@ -257,20 +264,26 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
             end
         end
     else
-        embed.description = "and didn't move as they're in Jail"
+        embed.description = "But they're in Jail. And they're staying there."
     end
-    local owner = "Nobody"
+    local owner = "Bank"
     if newprop and newprop.owner then 
         owner = Players[newprop.owner].Username
     end
     --if owner == nil then owner = "Nobody" end
     embeds.field(embed, "Owner", owner)
     
+    embeds.field(embed, "Current balance", "$"..Players[message.author.id].Cash
+    
     if (newprop and newprop.owner) then
-        embeds.field(embed, "Rent", newprop.cost)
+        embeds.field(embed, "Amount Owing", newprop.cost)
+        embeds.field(embed, "Next steps", "Remove the amount owing from your balance using the `rem` command. Control then passes onto the next player.");
     elseif (newprop) then
-        embeds.field(embed, "Amount Owing", newprop.price)
+        embeds.field(embed, "Price", newprop.price)
+        embeds.field(embed, "Next steps", "To purchase this property, use `getp`. Otherwise, state that you are putting this property up for auction and start a bid through chat!");
     end
+    
+    embeds.field(embed, "Next Player", "The next player is "..getCurrentPlayer(Players[message.author.id].Game)
     
     announce(Players[message.author.id].Game, {embed=embed})
 else
@@ -302,7 +315,7 @@ if msg == "" then
     if Board[Players[message.author.id].Position].id then
         Players[message.author.id].Cash = Players[message.author.id].Cash - Properties[Board[Players[message.author.id].Position].id].price
         Games[Players[message.author.id].Game].Properties[Games[Players[message.author.id].Game].Board[Players[message.author.id].Position].id].owner = message.author.id
-        announce(Players[message.author.id].Game, message.author.username.." has bought "..Board[Players[message.author.id].Position].name)
+        announce(Players[message.author.id].Game, message.author.username.." has bought "..Board[Players[message.author.id].Position].name.." for "..Board[Players[message.author.id].Position].price)
     end
 else
     for i,v in pairs(Properties) do
