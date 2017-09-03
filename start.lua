@@ -258,6 +258,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         end
     else
         embed.description = "and didn't move as they're in Jail"
+        move(message.author.id,0,0,0) --// Trigger the move function so the turn order continues
     end
     local owner = "Nobody"
     if newprop and newprop.owner then 
