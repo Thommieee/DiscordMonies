@@ -285,7 +285,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         embeds.field(embed, "Next steps", "To purchase this property, use `getp`. Otherwise, state that you are putting this property up for auction and start a bid through chat!");
     end
     
-    embeds.field(embed, "Next Player", "The next player is "..getCurrentPlayer(Players[message.author.id].Game))
+    embeds.field(embed, "Next Player", "The next player is "..getCurrentPlayer(Players[message.author.id].Game).Username)
     
     announce(Players[message.author.id].Game, {embed=embed})
 else
