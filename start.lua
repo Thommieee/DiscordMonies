@@ -317,7 +317,7 @@ if msg == "" then
     if Board[Players[message.author.id].Position].id then
         Players[message.author.id].Cash = Players[message.author.id].Cash - Properties[Board[Players[message.author.id].Position].id].price
         Games[Players[message.author.id].Game].Properties[Games[Players[message.author.id].Game].Board[Players[message.author.id].Position].id].owner = message.author.id
-        announce(Players[message.author.id].Game, message.author.username.." has bought "..Board[Players[message.author.id].Position].name.." for "..Board[Players[message.author.id].Position].price)
+        announce(Players[message.author.id].Game, message.author.username.." has bought "..Board[Players[message.author.id].Position].name.." for "..Properties[Board[Players[message.author.id].Position].id].price)
     end
 else
     for i,v in pairs(Properties) do
