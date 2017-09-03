@@ -265,6 +265,7 @@ end},
                         end
             --if owner == nil then owner = "Nobody" end
                         embeds.field(embed, "Owner", owner)
+                        
                         announce(Players[message.author.id].Game, {embed=embed})
                 else
                         message:reply("You're not in a game, or it's not your turn.")
@@ -312,6 +313,7 @@ end},
                         if v.name == msg then
                 if i < Players[message.author.id].Position then
                     Players[message.author.id].Cash = Players[message.author.id].Cash + 200        
+                                announce(Players[message.author.id].Game, message.author.username.." has acquired $200 from passing Go")
                 end
                                 Players[message.author.id].Position = i
                                 announce(Players[message.author.id].Game, message.author.username.." has moved to: "..v.name)
