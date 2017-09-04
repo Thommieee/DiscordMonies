@@ -302,7 +302,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         elseif newprop.set == "Utility" then
             local ucount = 0;
             local rolled = roll1 + roll2;
-            for i,v in pairs(Properties)
+            for i,v in pairs(Properties) do
                 if v.owner and v.owner == newprop.owner and v.set == "Utility" then ucount = ucount + 1 end
             end
             if ucount == 1 then
