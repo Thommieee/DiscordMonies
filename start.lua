@@ -381,6 +381,26 @@ else
     message:reply("You're not in a game...")
 end                
 end},
+{Name="Player Info",Usage={"pinfo"},Description="Displays information about a player",func=function(msg,message)
+local user = cmdapi.getUser(msg, Games[message.author.id].players);
+if user ~= nil then
+    local propstr = "";
+    local propcount = 0;
+    local embed = embeds.create("Player Info")
+    embed.description = "Information about: "..user.Username
+    local game = Games[Players[message.author.id].Game]
+    for i,v in pairs(game.Properties) do
+        if v.owner and v.owner == message.author.id then
+            propcount = propcount + 1
+            propstr = propstr..v.name.."\n"
+        end
+    end
+    embeds.field(embed, "Properties", propstr, true)
+    embeds.field(embed, "Cash", user.Cash, true)
+    embeds.field(embed, "Property Count", tostring(propcount), true)
+    message.channel:send({embed=embed})
+end
+end},
 {Name="Join Game",Usage={"join"},Description="Joins a game",func=function(msg,message)
 if msg ~= "" then
     if not Players[message.author.id] then
