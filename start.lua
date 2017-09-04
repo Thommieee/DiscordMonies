@@ -193,7 +193,7 @@ end},
     end
     local embed = embeds.create("Players")
     embed.description = plrstring
-    message.channel.send({embed=embed})
+    message.channel:send({embed=embed})
 end},
 {Name="Info",DMs=true,Usage={"info"},Description="Allows you to view information on a property",func=function(id,message)
 for i,v in pairs(Games[Players[message.author.id].Game].Properties) do
@@ -227,13 +227,13 @@ end},
 {Name="Add Money",DMs=true,Usage={"add"},Description="Adds money to your balance",func=function(amount, message)
 if tonumber(amount) then
     Players[message.author.id].Cash = Players[message.author.id].Cash + tonumber(amount)
-    announce(Players[message.author.id].Game, message.author.username.." has added $"..amount.." to his account.")
+    announce(Players[message.author.id].Game, message.author.username.." has added $"..amount.." to their account.")
 end
 end},
 {Name="Remove Money",DMs=true,Usage={"rem"},Description="Removes money from your balance",func=function(amount, message)
 if tonumber(amount) then
     Players[message.author.id].Cash = Players[message.author.id].Cash - tonumber(amount)
-    announce(Players[message.author.id].Game, message.author.username.." has removed $"..amount.." from his account")
+    announce(Players[message.author.id].Game, message.author.username.." has removed $"..amount.." from their account")
 end
 end},
 {Name="Chat",DMs=true,Usage={"chat"},Description="Allows you to talk to your fellow players",func=function(msg, message)
@@ -266,7 +266,6 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         newprop = Properties[Game.Board[Players[message.author.id].Position].id];
         embed.description = "And they landed on: "..tostring(Games[Players[message.author.id].Game].Board[Players[message.author.id].Position].name)
         if Game.Board[Players[message.author.id].Position] and Game.Board[Players[message.author.id].Position].type == "gotojail" then
-            print("JAIL TIME MY MAN")
             Players[message.author.id].isInJail = true
             for i,v in pairs(Game.Board) do
                 if v.type == "jail" then
@@ -287,15 +286,11 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     embeds.field(embed, "Owner", owner)
     
     embeds.field(embed, "Current balance", "$"..Players[message.author.id].Cash)
-    
-    if (newprop and newprop.owner) and Players[message.author.id].isInJail == false then
+    if (newprop and newprop.owner) and newprop.owner == message.author.id then
+        embeds.field(embed, "Relax", "It's your property.")
+    elseif (newprop and newprop.owner) and Players[message.author.id].isInJail == false then
         embeds.field(embed, "Amount Owing", newprop.cost)
         embeds.field(embed, "Next steps", "Remove the amount owing from your balance using the `rem` command. Control then passes onto the next player.");
-        
-        
-        Players[message.author.id].Cash = Players[message.author.id].Cash + newprop.cost
-        Players[message.author.id].Cash = Players[message.author.id].Cash - newprop.cost
-        announce(Players[message.author.id].Game, message.author.username.." has transferred $"..amount.." to "..owner)
     elseif (newprop and newprop.price) then
         embeds.field(embed, "Price", newprop.price)
         embeds.field(embed, "Next steps", "To purchase this property, use `getp`. Otherwise, state that you are putting this property up for auction and start a bid through chat!");
