@@ -119,7 +119,8 @@ end
         end
         if ran == false and message.guild == nil then
             if Players[message.author.id] then
-                announce(Players[message.author.id].Game, message.author.username..": "..message.content)
+                announce(Players[message.author.id].Game, message.author.username..": "..message.content, message.author.id)
+		message:addReaction("✅")
             end     
         end
 end)
