@@ -440,7 +440,7 @@ if user ~= nil then
     local embed = embeds.create("Player Info")
     local game = Games[Players[message.author.id].Game]
     for i,v in pairs(game.Properties) do
-        if v.owner and v.owner == message.author.id then
+        if v.owner and v.owner == user.ID then
             propcount = propcount + 1
             propstr = propstr..v.name.."\n"
         end
