@@ -48,7 +48,7 @@ function nextturn(gameid)
         for i,v in pairs(Games[gameid].players) do
                 if Players[i].Order == 1 then
                     Players[i].isReady = true
-                    Timer.setTimeout(50, function() Players[i].Player:send("It is your turn.") end)
+                    Players[i].Player:send("It is your turn.")
                 end
             end
             
@@ -57,7 +57,7 @@ function nextturn(gameid)
             for i,v in pairs(Games[gameid].players) do
                 if Players[i].Order == Players[playerid].Order + 1 then
                     Players[i].isReady = true
-                    Timer.setTimeout(50, function() Players[i].Player:send("It is your turn.") end)
+                    Players[i].Player:send("It is your turn.")
                 end
             end
             
@@ -208,7 +208,8 @@ end},
     end
 end},
 {Name="Players",DMs=true,Usage={"players","plrs"},Example="players",Description="Shows a list of all players",func=function(args,message)
-    local plrstring = "";
+	if Games[Players[message.author.id].Game].started == true then
+	local plrstring = "";
     local currname = getCurrentPlayer(Players[message.author.id].Game).Username
     for i,v in pairs(Games[Players[message.author.id].Game].players) do
         if v.Username == currname then
@@ -220,6 +221,15 @@ end},
     local embed = embeds.create("Players")
     embed.description = plrstring
     message.channel:send({embed=embed})
+	else
+	local plrstring = "";
+    for i,v in pairs(Games[Players[message.author.id].Game].players) do
+		plrstring = plrstring..v.Username.."\n"                 
+    end
+    local embed = embeds.create("Players")
+    embed.description = plrstring
+    message.channel:send({embed=embed})			
+	end
 end},
 {Name="Info",DMs=true,Usage={"info"},Example="info <property>",Description="Allows you to view information on a property",func=function(id,message)
 for i,v in pairs(Games[Players[message.author.id].Game].Properties) do
@@ -314,9 +324,9 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     --if owner == nil then owner = "Nobody" end
     embeds.field(embed, "Owner", owner)
     if Game.Board[Players[message.author.id].Position].type == "chance" then
-    embed.description = Games[Players[message.author.id].Game].Chance[ math.random( 0, #Games[Players[message.author.id].Game].Chance - 1 ) ]
+    embed.description = Game.Board[Players[message.author.id].Position].name..": "..Games[Players[message.author.id].Game].Chance[ math.random( 0, #Games[Players[message.author.id].Game].Chance - 1 ) ]
     elseif Game.Board[Players[message.author.id].Position].type == "chest" then
-    embed.description = Games[Players[message.author.id].Game].Chest[ math.random( 0, #Games[Players[message.author.id].Game].Chest - 1 ) ]            
+    embed.description = Game.Board[Players[message.author.id].Position].name..": "..Games[Players[message.author.id].Game].Chest[ math.random( 0, #Games[Players[message.author.id].Game].Chest - 1 ) ]            
     end
     embeds.field(embed, "Current balance", "$"..Players[message.author.id].Cash)
     if (newprop and newprop.owner) and newprop.owner == message.author.id then
