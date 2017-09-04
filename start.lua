@@ -246,7 +246,7 @@ if tonumber(amount) then
     announce(Players[message.author.id].Game, message.author.username.." has added $"..amount.." to their account.")
 end
 end},
-{Name="Remove Money",DMs=true,Usage={"rem"},Example="rem <amount>"Description="Removes money from your balance",func=function(amount, message)
+{Name="Remove Money",DMs=true,Usage={"rem"},Example="rem <amount>",Description="Removes money from your balance",func=function(amount, message)
 if tonumber(amount) then
     Players[message.author.id].Cash = Players[message.author.id].Cash - tonumber(amount)
     announce(Players[message.author.id].Game, message.author.username.." has removed $"..amount.." from their account")
