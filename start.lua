@@ -382,12 +382,12 @@ else
 end                
 end},
 {Name="Player Info",Usage={"pinfo"},Description="Displays information about a player",func=function(msg,message)
-local user = cmdapi.getUser(msg, Games[message.author.id].players);
+
+local user = cmdapi.getUser(msg, Games[Players[message.author.id].Game].players);
 if user ~= nil then
     local propstr = "";
     local propcount = 0;
     local embed = embeds.create("Player Info")
-    embed.description = "Information about: "..user.Username
     local game = Games[Players[message.author.id].Game]
     for i,v in pairs(game.Properties) do
         if v.owner and v.owner == message.author.id then
@@ -395,7 +395,7 @@ if user ~= nil then
             propstr = propstr..v.name.."\n"
         end
     end
-    embeds.field(embed, "Properties", propstr, true)
+    if propstr ~= "" then embeds.field(embed, "Properties", propstr, true) else embeds.field(embed, "Properties", "None", true) end
     embeds.field(embed, "Cash", user.Cash, true)
     embeds.field(embed, "Property Count", tostring(propcount), true)
     message.channel:send({embed=embed})
