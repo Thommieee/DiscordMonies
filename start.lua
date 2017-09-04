@@ -289,10 +289,10 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         embeds.field(embed, "Relax", "It's your property.")
     elseif (newprop and newprop.owner) and Players[message.author.id].isInJail == false then
         embeds.field(embed, "Amount Owing", newprop.cost)
-        embeds.field(embed, "Next steps", "Remove the amount owing from your balance using the `rem` command. Control then passes onto the next player.");
+        embeds.field(embed, "Next steps", "You've just wired $"..newprop.cost.." over to "..owner..". It is now the next player's turn.");
         Players[newprop.owner].Cash = Players[newprop.owner].Cash + newprop.cost
         Players[message.author.id].Cash = Players[message.author.id].Cash - newprop.cost
-        announce(Players[message.author.id].Game, message.author.username.." has transferred $"..newprop.cost.." to "..owner)
+        --//announce(Players[message.author.id].Game, message.author.username.." has transferred $"..newprop.cost.." to "..owner)
     elseif (newprop and newprop.price) then
         embeds.field(embed, "Price", newprop.price)
         embeds.field(embed, "Next steps", "To purchase this property, use `getp`. Otherwise, state that you are putting this property up for auction and start a bid through chat!");
@@ -303,7 +303,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     announce(Players[message.author.id].Game, {embed=embed})
 else
     message:reply("You're not in a game, or it's not your turn.")
-end                
+end
 end},
 {Name="End",Usage={"end"},Description="Ends the game",func=function(msg,message)
 if Players[message.author.id] then
