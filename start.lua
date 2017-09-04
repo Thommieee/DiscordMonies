@@ -181,6 +181,20 @@ if id ~= "" then
     end
 end
 end},
+{Name="Players",DMs=true,Usage={"players","plrs"},Description="Shows a list of all players",func=function(args,message)
+    local plrstring = "";
+    local currname = getCurrentPlayer(Players[message.author.id].Game).Username
+    for i,v in pairs(Games[Players[message.author.id].Game].players) do
+        if v.Username == currname then
+            plrstring = plrstring.."**"..v.Username.."**".."\n"
+        else
+            plrstring = plrstring..v.Username.."\n"                 
+        end
+    end
+    local embed = embeds.create("Players")
+    embed.description = plrstring
+    message.channel.send({embed=embed})
+end},
 {Name="Info",DMs=true,Usage={"info"},Description="Allows you to view information on a property",func=function(id,message)
 for i,v in pairs(Games[Players[message.author.id].Game].Properties) do
     if v.name == id then
