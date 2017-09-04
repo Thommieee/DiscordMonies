@@ -83,15 +83,17 @@ function move(playerid, moves, m1, m2, escjail)
 end
 
 function announce(gameid, message, excludeid)
-    for i,v in pairs(Games[gameid].players) do
-		if excludeid then
-			if excludeid ~= v.ID then
-				Players[i].Player:send(message)
+	if gameid and message then
+    	for i,v in pairs(Games[gameid].players) do
+			if excludeid then
+				if excludeid ~= v.ID then
+					Players[i].Player:send(message)
+				end
+			else
+        		Players[i].Player:send(message)
 			end
-		else
-        	Players[i].Player:send(message)
-		end
-    end
+  	  	end
+	end
 end
 
 client:on('messageCreate', function(message)
