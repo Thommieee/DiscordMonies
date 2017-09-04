@@ -443,7 +443,7 @@ end},
 if Players[message.author.id] and Players[message.author.id].isInJail == true then
     Players[message.author.id].Cash = Players[message.author.id].Cash - 50
     Players[message.author.id].isInJail = false;
-    announce(Games[Players[message.author.id].Game], message.author.username.." bailed out of Jail and paid $50")
+    announce(Players[message.author.id].Game, message.author.username.." bailed out of Jail and paid $50")
 end
 end},
 {Name="Chance",DMs=true,Usage={"chance"},Description="Opens a random chance card",func=function(msg,message)
