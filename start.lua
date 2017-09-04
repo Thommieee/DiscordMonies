@@ -288,10 +288,24 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     if (newprop and newprop.owner) and newprop.owner == message.author.id then
         embeds.field(embed, "Relax", "It's your property.")
     elseif (newprop and newprop.owner) and Players[message.author.id].isInJail == false then
-        embeds.field(embed, "Amount Owing", newprop.cost)
-        embeds.field(embed, "Next steps", "You've just wired $"..newprop.cost.." over to "..owner..". It is now the next player's turn.");
-        Players[newprop.owner].Cash = Players[newprop.owner].Cash + newprop.cost
-        Players[message.author.id].Cash = Players[message.author.id].Cash - newprop.cost
+        local owing = 0;
+        if newprop.set == "Station" then
+            for i,v in pairs(Properties) do
+                if v.owner and v.owner == message.author.id and v.set == "Station" then
+                    if owing == 0 then
+                        owing = 25;
+                    else
+                        owing = owing + owing                     
+                    end
+                end
+            end
+        elseif newprop.cost then
+            owing = newprop.cost;
+        end
+        embeds.field(embed, "Amount Owing", owing)
+        embeds.field(embed, "Next steps", "You've just wired $"..owing.." over to "..owner..". It is now the next player's turn.");
+        Players[newprop.owner].Cash = Players[newprop.owner].Cash + owing
+        Players[message.author.id].Cash = Players[message.author.id].Cash - owing
         --//announce(Players[message.author.id].Game, message.author.username.." has transferred $"..newprop.cost.." to "..owner)
     elseif (newprop and newprop.price) then
         embeds.field(embed, "Price", newprop.price)
