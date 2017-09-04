@@ -84,7 +84,7 @@ end
 
 function announce(gameid, message, excludeid)
     for i,v in pairs(Games[gameid].players) do
-		if exludeid then
+		if excludeid then
 			if excludeid ~= v.ID then
 				Players[i].Player:send(message)
 			end
