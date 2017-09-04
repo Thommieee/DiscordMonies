@@ -90,7 +90,7 @@ function announce(gameid, message, excludeid)
 					Players[i].Player:send(message)
 				end
 			else
-        		Players[i].Player:send(message)
+        			Players[i].Player:send(message)
 			end
   	  	end
 	end
@@ -284,7 +284,8 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     end
     embed.footer = {text=footertext}
     local Game = Games[Players[message.author.id].Game]
-	local Board = Game.Board
+	print(Game, Players[message.author.id].Game, Game.Board)
+    local Board = Game.Board
     local Properties = Game.Properties
     local oldprop = Properties[Game.Board[Players[message.author.id].Position].id];
     local newprop;
@@ -485,7 +486,6 @@ if msg ~= "" then
         message:reply("You're already in a game")
     end
 else
-    message:reply("Matchmaking...")
     local gamefound = false;
     for i,v in pairs(Games) do
         if v.started == false and #v.players < 4 and gamefound == false then
