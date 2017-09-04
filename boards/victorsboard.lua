@@ -36,6 +36,8 @@ Properties[24] = {name="Bot Arena Station", price=200, set="Station"}
 Properties[25] = {name="AstralPhaser Central Station", price=200, set="Station"}
 Properties[26] = {name="JXKGS Station", price=200, set="Station"}
 Properties[27] = {name="Chair City", price=200, set="Station"}
+Properties[28] = {name="Electric Company", price=150, set="Utility"}
+Properties[29] = {name="Waterworks", price=150, set="Utility"}
 
 local Board = {};
 Board[1] = {name="Start", type="static"}
@@ -50,7 +52,7 @@ Board[9] = {name="AleeBot Block", type="property", id=5}
 Board[10] = {name="Aren's House", type="property", id=6}
 Board[11] = {name="Jail", type="jail", type="jail"}
 Board[12] = {name="AstralMod SubHQ", type="property", id=7}
-Board[13] = {name="Electric Company", type="company"}
+Board[13] = {name="Electric Company", type="company", id=28}
 Board[14] = {name="Scarlett Art House", type="property", id=8}
 Board[15] = {name="FnKey Manor", type="property", id=9}
 Board[16] = {name="AstralPhaser Central Station", type="railroad", id=27}
@@ -66,7 +68,7 @@ Board[25] = {name="Rain's House", type="property", id=15}
 Board[26] = {name="JXKGS Station", type="railroad", id=25}
 Board[27] = {name="Jason's House", type="property", id=16}
 Board[28] = {name="Ship Dock", type="property", id=17}
-Board[29] = {name="Waterworks", type="company"}
+Board[29] = {name="Waterworks", type="company", id=29}
 Board[30] = {name="House of Crystology", type="property", id=18}
 Board[31] = {name="Go To Jail", type="gotojail"}
 Board[32] = {name="Precipitation Road", type="property", id=19}
