@@ -84,6 +84,7 @@ end
 
 function announce(gameid, message, excludeid)
 	if gameid and message then
+	print(gameid, message, excludeid)
     	for i,v in pairs(Games[gameid].players) do
 			if excludeid then
 				if excludeid ~= v.ID then
@@ -284,7 +285,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     end
     embed.footer = {text=footertext}
     local Game = Games[Players[message.author.id].Game]
-	print(Game, Players[message.author.id].Game, Game.Board)
+    print(Game, Players[message.author.id].Game)
     local Board = Game.Board
     local Properties = Game.Properties
     local oldprop = Properties[Game.Board[Players[message.author.id].Position].id];
