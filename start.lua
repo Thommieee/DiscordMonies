@@ -291,7 +291,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         local owing = 0;
         if newprop.set == "Station" then
             for i,v in pairs(Properties) do
-                if v.owner and v.owner == message.author.id and v.set == "Station" then
+                if v.owner and v.owner == newprop.owner and v.set == "Station" then
                     if owing == 0 then
                         owing = 25;
                     else
