@@ -131,6 +131,9 @@ if args ~= "" then
                 for _,usg in pairs(cmd.Usage) do alstr = alstr..prefix..usg..", " end
                 embeds.field(emb, "Syntax", string.sub(alstr,1,string.len(alstr)-2), false)
                 embeds.field(emb, "Description", cmd.Description, false)
+                if cmd.Example then
+                    embeds.field(emb, "Example", cmd.Example)
+                end
                 local permstr = "";
                 if cmd.perms then
                     for _,perm in pairs(cmd.perms) do permstr = permstr..perm..", " end
@@ -144,7 +147,7 @@ else
     message.channel:send({embed=helpembed})
 end
 end},
-{Name="Make",Usage={"make"},Description="Makes a game",func=function(id, message)
+{Name="Make",Usage={"make"},Example="make <game id>",Description="Makes a game",func=function(id, message)
 if id ~= "" then
     if not Players[message.author.id] then
         if not Games[id] then
@@ -180,7 +183,21 @@ if id ~= "" then
     end
 end
 end},
-{Name="Players",DMs=true,Usage={"players","plrs"},Description="Shows a list of all players",func=function(args,message)
+{Name="Trade Property",Example="tprop <user>/<property>",DMs=true,Usage={"tradeprop","tprop"},Description="Gives someone a property",func=function(args,message)
+    if string.find(args, "/") then
+        local plrstring = string.sub(args,1,string.find(args,"/")-1)
+        local propstring = string.sub(args,string.find(args,"/")+1)
+        local Game = Games[Players[messsage.author.id].Game]
+        local user = cmdapi.getUser(plrstring, Game.players);
+        for i,v in pairs(Game.Properties) do
+            if v.name == propstring and prop == nil and v.owner and v.owner == message.author.id and user then
+                announce(Game.ID, user.Username.." has given "..plrstring.." the property: "..v.name)
+                v.owner = user.ID
+            end
+        end
+    end
+end},
+{Name="Players",DMs=true,Usage={"players","plrs"},Example="players",Description="Shows a list of all players",func=function(args,message)
     local plrstring = "";
     local currname = getCurrentPlayer(Players[message.author.id].Game).Username
     for i,v in pairs(Games[Players[message.author.id].Game].players) do
@@ -194,7 +211,7 @@ end},
     embed.description = plrstring
     message.channel:send({embed=embed})
 end},
-{Name="Info",DMs=true,Usage={"info"},Description="Allows you to view information on a property",func=function(id,message)
+{Name="Info",DMs=true,Usage={"info"},Example="info <property>",Description="Allows you to view information on a property",func=function(id,message)
 for i,v in pairs(Games[Players[message.author.id].Game].Properties) do
     if v.name == id then
         local owner;
@@ -212,7 +229,7 @@ for i,v in pairs(Games[Players[message.author.id].Game].Properties) do
     end
 end
 end},
-{Name="Stats",DMs=true,Usage={"stats"},Description="View your cash and game ID",func=function(id, message)
+{Name="Stats",DMs=true,Usage={"stats"},Example="stats",Description="View your cash and game ID",func=function(id, message)
 if Players[message.author.id] then
     local playerdata = Players[message.author.id]
     local embed = embeds.create("Game Details", 1146986)
@@ -223,24 +240,24 @@ else
     message:reply("You're not in a game...")
 end                
 end},
-{Name="Add Money",DMs=true,Usage={"add"},Description="Adds money to your balance",func=function(amount, message)
+{Name="Add Money",DMs=true,Usage={"add"},Example="add <amount>",Description="Adds money to your balance",func=function(amount, message)
 if tonumber(amount) then
     Players[message.author.id].Cash = Players[message.author.id].Cash + tonumber(amount)
     announce(Players[message.author.id].Game, message.author.username.." has added $"..amount.." to their account.")
 end
 end},
-{Name="Remove Money",DMs=true,Usage={"rem"},Description="Removes money from your balance",func=function(amount, message)
+{Name="Remove Money",DMs=true,Usage={"rem"},Example="rem <amount>"Description="Removes money from your balance",func=function(amount, message)
 if tonumber(amount) then
     Players[message.author.id].Cash = Players[message.author.id].Cash - tonumber(amount)
     announce(Players[message.author.id].Game, message.author.username.." has removed $"..amount.." from their account")
 end
 end},
-{Name="Chat",DMs=true,Usage={"chat"},Description="Allows you to talk to your fellow players",func=function(msg, message)
+{Name="Chat",DMs=true,Usage={"chat"},Example="Hi", Description="Allows you to talk to your fellow players",func=function(msg, message)
 if Players[message.author.id] then
     announce("**"..Players[message.author.id].Game, message.author.username.."**: "..msg)
 end
 end},
-{Name="Roll",DMs=true,Usage={"roll"},Description="Rolls the dice",func=function(msg, message)
+{Name="Roll",DMs=true,Usage={"roll"},Example="roll",Description="Rolls the dice",func=function(msg, message)
 if Players[message.author.id] and Players[message.author.id].isReady == true then
     if Players[message.author.id].isInJail == nil then Players[message.author.id].isInJail = false end
     local roll1 = math.random(1,6)
