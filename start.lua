@@ -381,8 +381,7 @@ else
     message:reply("You're not in a game...")
 end                
 end},
-{Name="Player Info",Usage={"pinfo"},Description="Displays information about a player",func=function(msg,message)
-
+{Name="Player Info",DMs=true,Usage={"pinfo"},Description="Displays information about a player",func=function(msg,message)
 local user = cmdapi.getUser(msg, Games[Players[message.author.id].Game].players);
 if user ~= nil then
     local propstr = "";
@@ -398,6 +397,7 @@ if user ~= nil then
     if propstr ~= "" then embeds.field(embed, "Properties", propstr, true) else embeds.field(embed, "Properties", "None", true) end
     embeds.field(embed, "Cash", user.Cash, true)
     embeds.field(embed, "Property Count", tostring(propcount), true)
+    embeds.field(embed, "Location", Board[user.Position].name)
     message.channel:send({embed=embed})
 end
 end},
