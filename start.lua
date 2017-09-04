@@ -64,7 +64,7 @@ function nextturn(gameid)
         end
 end
 
-function move(playerid, moves, m1, m2)
+function move(playerid, moves, m1, m2, escjail)
     local Board = Games[Players[playerid].Game].Board
     local gameid = Players[playerid].Game
     if Players[playerid].Position + moves > #Board then
@@ -77,7 +77,7 @@ function move(playerid, moves, m1, m2)
     else
         Players[playerid].Position = Players[playerid].Position + moves
     end
-    if m1 ~= m2 then
+    if m1 ~= m2 and escjail == false then
         nextturn(Players[playerid].Game)
     end
 end
@@ -248,9 +248,9 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     local embed
     local roll = roll1 + roll2
     local footertext = tostring(roll1.." + "..roll2.." = "..roll)
-    
-    if roll1 == roll2 then 
-        Players[message.author.id].isInJail = false
+    local escapedjail = false;
+    if roll1 == roll2 then
+        if Players[message.author.id].isInJail == true then Players[message.author.id].isInJail = false; escapedjail = true end
         embed = embeds.create(Players[message.author.id].Username.." rolled a "..roll..". Doubles!")
     else
         embed = embeds.create(Players[message.author.id].Username.." rolled a "..roll..".")
@@ -261,7 +261,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     local oldprop = Properties[Game.Board[Players[message.author.id].Position].id];
     local newprop;
     if Players[message.author.id].isInJail == false then
-        move(message.author.id, roll, roll1, roll2)
+        move(message.author.id, roll, roll1, roll2, escapedjail)
         newprop = Properties[Game.Board[Players[message.author.id].Position].id];
         embed.description = "And they landed on: "..tostring(Games[Players[message.author.id].Game].Board[Players[message.author.id].Position].name)
         if Game.Board[Players[message.author.id].Position] and Game.Board[Players[message.author.id].Position].type == "gotojail" then
@@ -283,7 +283,11 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     end
     --if owner == nil then owner = "Nobody" end
     embeds.field(embed, "Owner", owner)
-    
+    if Game.Board[Players[message.author.id].Position].type == "chance" then
+    embed.description = Games[Players[message.author.id].Game].Chance[ math.random( 0, #Games[Players[message.author.id].Game].Chance - 1 ) ]
+    elseif Game.Board[Players[message.author.id].Position].type == "chest" then
+    embed.description = Games[Players[message.author.id].Game].Chest[ math.random( 0, #Games[Players[message.author.id].Game].Chest - 1 ) ]            
+    end
     embeds.field(embed, "Current balance", "$"..Players[message.author.id].Cash)
     if (newprop and newprop.owner) and newprop.owner == message.author.id then
         embeds.field(embed, "Relax", "It's your property.")
