@@ -490,6 +490,7 @@ if msg ~= "" then
             Games[msg].players[message.author.id] = playerdata
             Games[msg].order[#Games[msg].order+1] = message.author.id
             message:reply("Added you to the game")
+			announce(msg, message.author.username.." has joined the game!")
         else
             message:reply("That game doesn't exist or has already started.")
         end
@@ -514,6 +515,7 @@ else
             Games[i].players[message.author.id] = playerdata
             Games[i].order[#Games[i].order+1] = message.author.id
             message:reply("Added you to the game")
+			announce(i, message.author.username.." has joined the game!")
         end
     end
 end               
