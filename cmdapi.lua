@@ -13,7 +13,7 @@ cmdapi.getUser=function(arg,plrtable)
 			end
 		end
 	else
-		for i,v in pairs(plrtable)
+		for i,v in pairs(plrtable) do
 			if v.Username == arg then
 				userfound = v
 			end
