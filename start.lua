@@ -397,7 +397,7 @@ if user ~= nil then
     if propstr ~= "" then embeds.field(embed, "Properties", propstr, true) else embeds.field(embed, "Properties", "None", true) end
     embeds.field(embed, "Cash", user.Cash, true)
     embeds.field(embed, "Property Count", tostring(propcount), true)
-    embeds.field(embed, "Location", Board[user.Position].name)
+    embeds.field(embed, "Location", game.Board[user.Position].name)
     message.channel:send({embed=embed})
 end
 end},
