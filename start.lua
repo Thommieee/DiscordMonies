@@ -83,7 +83,6 @@ function move(playerid, moves, m1, m2)
 end
 
 function announce(gameid, message)
-    
     for i,v in pairs(Games[gameid].players) do
         Players[i].Player:send(message)
     end
@@ -291,9 +290,9 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     elseif (newprop and newprop.owner) and Players[message.author.id].isInJail == false then
         embeds.field(embed, "Amount Owing", newprop.cost)
         embeds.field(embed, "Next steps", "Remove the amount owing from your balance using the `rem` command. Control then passes onto the next player.");
-        Players[message.author.id].Cash = Players[message.author.id].Cash + newprop.cost
+        Players[newprop.owner].Cash = Players[newprop.owner].Cash + newprop.cost
         Players[message.author.id].Cash = Players[message.author.id].Cash - newprop.cost
-        announce(Players[message.author.id].Game, message.author.username.." has transferred $"..amount.." to "..owner)
+        announce(Players[message.author.id].Game, message.author.username.." has transferred $"..newprop.cost.." to "..owner)
     elseif (newprop and newprop.price) then
         embeds.field(embed, "Price", newprop.price)
         embeds.field(embed, "Next steps", "To purchase this property, use `getp`. Otherwise, state that you are putting this property up for auction and start a bid through chat!");
