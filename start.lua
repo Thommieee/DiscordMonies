@@ -187,7 +187,7 @@ end},
     if string.find(args, "/") then
         local plrstring = string.sub(args,1,string.find(args,"/")-1)
         local propstring = string.sub(args,string.find(args,"/")+1)
-        local Game = Games[Players[messsage.author.id].Game]
+        local Game = Games[Players[message.author.id].Game]
         local user = cmdapi.getUser(plrstring, Game.players);
         for i,v in pairs(Game.Properties) do
             if v.name == propstring and prop == nil and v.owner and v.owner == message.author.id and user then
@@ -274,6 +274,7 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
     end
     embed.footer = {text=footertext}
     local Game = Games[Players[message.author.id].Game]
+	local Board = Game.Board
     local Properties = Game.Properties
     local oldprop = Properties[Game.Board[Players[message.author.id].Position].id];
     local newprop;
