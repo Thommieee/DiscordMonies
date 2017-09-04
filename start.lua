@@ -82,9 +82,15 @@ function move(playerid, moves, m1, m2, escjail)
     end
 end
 
-function announce(gameid, message)
+function announce(gameid, message, excludeid)
     for i,v in pairs(Games[gameid].players) do
-        Players[i].Player:send(message)
+		if exludeid then
+			if excludeid ~= v.ID then
+				Players[i].Player:send(message)
+			end
+		else
+        	Players[i].Player:send(message)
+		end
     end
 end
 
@@ -254,7 +260,8 @@ end
 end},
 {Name="Chat",DMs=true,Usage={"chat"},Example="Hi", Description="Allows you to talk to your fellow players",func=function(msg, message)
 if Players[message.author.id] then
-    announce("**"..Players[message.author.id].Game, message.author.username.."**: "..msg)
+    announce("**"..Players[message.author.id].Game, message.author.username.."**: "..msg, message.author.id)
+	message:addReaction("✅")
 end
 end},
 {Name="Roll",DMs=true,Usage={"roll"},Example="roll",Description="Rolls the dice",func=function(msg, message)
