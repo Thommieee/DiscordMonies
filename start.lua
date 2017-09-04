@@ -318,6 +318,10 @@ if Players[message.author.id] and Players[message.author.id].isReady == true the
         Players[newprop.owner].Cash = Players[newprop.owner].Cash + owing
         Players[message.author.id].Cash = Players[message.author.id].Cash - owing
         --//announce(Players[message.author.id].Game, message.author.username.." has transferred $"..newprop.cost.." to "..owner)
+    elseif (Board[Players[message.author.id].Position].type == "tax") then
+        embeds.field(embed, "Amount Owing", Board[Players[message.author.id].Position].cost)
+        embeds.field(embed, "Next steps", "You've just paid $"..Board[Players[message.author.id].Position].cost.." worth of taxes")
+        Players[message.author.id].Cash = Players[message.author.id].Cash - Board[Players[message.author.id].Position].cost
     elseif (newprop and newprop.price) then
         embeds.field(embed, "Price", newprop.price)
         embeds.field(embed, "Next steps", "To purchase this property, use `getp`. Otherwise, state that you are putting this property up for auction and start a bid through chat!");
