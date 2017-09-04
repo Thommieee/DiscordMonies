@@ -36,6 +36,8 @@ Properties[24] = {name="Station Zuid", price=200, set="Station"}
 Properties[25] = {name="Station Noord", price=200, set="Station"}
 Properties[26] = {name="Station Oost", price=200, set="Station"}
 Properties[27] = {name="Station West", price=200, set="Station"}
+Properties[28] = {name="Elektriciteitsbedrijf", price=150, set="Utility"}
+Properties[29] = {name="Waterleidingsbedrijf", price=150, set="Utility"}
 
 local Board = {};
 Board[1] = {name="Start", type="static"}
@@ -50,7 +52,7 @@ Board[9] = {name="Licht Blauw 2", type="property", id=5}
 Board[10] = {name="Licht Blauw 3", type="property", id=6}
 Board[11] = {name="Gevangenis", type="jail", type="jail"}
 Board[12] = {name="Roze 1", type="property", id=7}
-Board[13] = {name="Elektriciteitsbedrijf", type="company"}
+Board[13] = {name="Elektriciteitsbedrijf", type="company", id=28}
 Board[14] = {name="Roze 2", type="property", id=8}
 Board[15] = {name="Roze 3", type="property", id=9}
 Board[16] = {name="Station West", type="railroad", id=27}
@@ -66,7 +68,7 @@ Board[25] = {name="Rood 3", type="property", id=15}
 Board[26] = {name="Station Noord", type="railroad", id=25}
 Board[27] = {name="Geel 1", type="property", id=16}
 Board[28] = {name="Geel 2", type="property", id=17}
-Board[29] = {name="Waterleidingsbedrijf", type="company"}
+Board[29] = {name="Waterleidingsbedrijf", type="company", id=29}
 Board[30] = {name="Geel 3", type="property", id=18}
 Board[31] = {name="Naar De Gevangenis", type="gotojail"}
 Board[32] = {name="Groen 1", type="property", id=19}
