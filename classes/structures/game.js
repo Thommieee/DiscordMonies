@@ -32,5 +32,16 @@ class Game {
       this.currentPlayer = next(this.players, this.currentPlayer)
     }
   }
+  movePlayer(plr, steps) {
+    for (i=1;i<=steps;i++) {
+      var newPos = next(this.Game.Board.Fields, this.Game.Boards.Fields[this.Position]);
+      if (newPos['onPass']) {
+        newPos.onPass(plr)
+      }
+      if (i==steps) {
+        newPos.onStep(plr)
+      }
+    }
+  }
 }
 exports.Game = Game
