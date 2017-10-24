@@ -1,13 +1,9 @@
+var Board = require('./board.js').Board;
 class Game {
   constructor(id) {
     this.id = id;
     this.players = [];
-    this.players[1] = "Aren"
-    this.players[12341234] = "ded"
-    this.Properties = [];
-    this.Chest = [];
-    this.Chance = [];
-    this.Board = [];
+    this.Board = null;
   }
   getPlayer(userResolve) {
     if (parseInt(userResolve)) {
@@ -15,10 +11,15 @@ class Game {
     } else {
       this.players.forEach(function(elem, index) {
         if (elem == userResolve) {
-          return index
+          return this.players[index]
         }
       })
     }
+  }
+
+  loadBoard(boardid) {
+    var board = new Board(boardid);
+    if (board) { this.Board=board }
   }
 }
 exports.Game = Game
