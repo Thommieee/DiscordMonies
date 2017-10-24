@@ -1,4 +1,5 @@
 var Board = require('./board.js').Board;
+var next = require('array-next');
 class Game {
   constructor(id) {
     this.id = id;
@@ -24,6 +25,12 @@ class Game {
   loadBoard(boardid) {
     var board = new Board(boardid);
     if (board) { this.Board=board }
+  }
+
+  advanceTurn() {
+    if (this.Started == true) {
+      this.currentPlayer = next(this.players, this.currentPlayer)
+    }
   }
 }
 exports.Game = Game
