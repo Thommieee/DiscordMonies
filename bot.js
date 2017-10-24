@@ -12,4 +12,4 @@ client.on('message', msg => {
   }
 });
 
-client.login('MzUxMzYwODI4MDQ3MzYwMDAx.DIRdyA.pT1CtRN8yoa4OK8vuwpJxd3uDWU');
+client.login(require('./data.json').token);
