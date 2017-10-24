@@ -35,7 +35,7 @@
   "Fields":[
     {
       "Name":"Go",
-      "Type":"Go",
+      "Type":"Go"
     },
     {
       "Name":"Brown 1",
@@ -158,8 +158,8 @@
     {
       "Name":"Electric Company",
       "Type":"Utility",
-      "Price":150,
-    }
+      "Price":150
+    },
     {
       "Name":"Pink 2",
       "Type":"Property",
@@ -345,7 +345,7 @@
     {
       "Name":"Water Works",
       "Type":"Utility",
-      "Price":150,
+      "Price":150
     },
     {
       "Name":"Yellow 3",
@@ -464,7 +464,7 @@
       "CostHotel":2000,
       "MortgageCost":175,
       "UnmortgageCost":192
-    },
+    }
   ],
   "Misc":{
     "PassGoCash":200,

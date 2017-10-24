@@ -10,7 +10,7 @@ var Tax = require('../boarditems/tax.js').Tax;
 var ToJail = require('../boarditems/tojail.js').ToJail;
 class Board {
   constructor(boardid) {
-    if (require("fs").existsSync('../../boards/'+boardid+'.json')) {
+    if (require("fs").existsSync('boards/'+boardid+'.json')) {
       var boardData = require('../../boards/'+boardid+'.json');
       this.Chance = boardData.Chance
       this.Chest = boardData.Chest
@@ -49,6 +49,20 @@ class Board {
         }
       })
       this.Fields = fieldData
+    }
+  }
+  getInfo(fieldResolve, info) {
+    var fields = this.Fields
+    if (parseInt(fieldResolve)) {
+      return fields[parseInt(fieldResolve)][info]
+    } else {
+      this.Fields.forEach(function(elem, index) {
+        if (elem.name == fieldResolve) {
+          var name = elem.name
+          console.log(name) // Brown 1
+          return name // undefined
+        }
+      })
     }
   }
 }
