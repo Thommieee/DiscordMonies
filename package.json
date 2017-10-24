@@ -1,0 +1,29 @@
+{
+  "name": "discord-monies",
+  "version": "1.0.0",
+  "description": "Monopoly for Discord",
+  "main": "bot.js",
+  "dependencies": {
+    "array-next": "0.0.1",
+    "discord.js": "^11.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aren-cllc/DiscordMonies.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "monopoly"
+  ],
+  "author": "Aren",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aren-cllc/DiscordMonies/issues"
+  },
+  "homepage": "https://github.com/aren-cllc/DiscordMonies#readme"
+}

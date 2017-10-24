@@ -7,6 +7,7 @@ exports.runCommand = function(user, args, msgo, DiscordMonies) {
       DiscordMonies.Games[args[1]] = Game
       var Player = new DiscordMonies.Player(user, Game);
       DiscordMonies.Players[Player.ID] = Player
+      DiscordMonies.Games[args[1]].players[DiscordMonies.Games[args[1]].players.length] = Player
       msgo.reply("Created game: "+args[1])
     }
   }

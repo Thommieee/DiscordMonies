@@ -16,7 +16,7 @@ client.on('message', msg => {
         require('./commands/'+args[0]+'.js').runCommand(msg.author, args, msg, DiscordMonies)
       }
       catch(err) {
-        msgo.reply(err.message);
+        msg.reply(err.stack);
       }
     }
   }
