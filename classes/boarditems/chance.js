@@ -7,3 +7,5 @@ class Chance extends BoardItem {
     //TODO: Implement Chance Cards
   }
 }
+
+exports.Chance = Chance;

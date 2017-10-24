@@ -1,19 +1,28 @@
-exports.Structures = {
-  BoardItem:require('./containers/boarditem.js').BoardItem,
-  Purchasable:require('./containers/purchasable.js').Purchasable,
-};
-exports.BoardItems = {
-  Property:require('./boarditems/property.js').Property,
-  Go:require('./boarditems/go.js').Go,
-  Station:require('./boarditems/station.js').Station,
-  Utiity:require('./boarditems/utility.js').Utility,
-  Chance:require('./boarditems/chance.js').Chance,
-  Chest:require('./boarditems/chest.js').Chest,
-  Jail:require('./boarditems/jail.js').Jail,
-  Parking:require('./boarditems/parking.js').Parking,
-  Tax:require('./boarditems/tax.js').Tax,
-  ToJail:require('./boarditems/tojail.js').ToJail,
-};
-exports.Board = require('./structures/board.js').Board;
-exports.Game = require('./structures/game.js').Game;
-exports.Player = require('./structures/player.js').Player;
+var fs = require('fs');
+var containerdir = fs.readdirSync('./classes/containers/');
+var itemsdir = fs.readdirSync('./classes/boarditems/');
+var structuredir = fs.readdirSync('./classes/structures/');
+var containerobj = {};
+var itemobj = {};
+containerdir.forEach(function(filename) {
+  var data = require('./containers/'+filename);
+  Object.keys(data).forEach(function(thing) {
+    containerobj[thing] = data[thing]
+  })
+});
+exports.Containers = containerobj
+itemsdir.forEach(function(filename) {
+  var data = require('./boarditems/'+filename);
+  Object.keys(data).forEach(function(thing) {
+    itemobj[thing] = data[thing]
+  })
+});
+
+exports.BoardItems = itemobj
+
+structuredir.forEach(function(filename) {
+  var data = require('./structures/'+filename);
+  Object.keys(data).forEach(function(thing) {
+    exports[thing] = data[thing]
+  })
+});

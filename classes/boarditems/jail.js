@@ -4,3 +4,4 @@ class Jail extends BoardItem {
     super(name)
   }
 }
+exports.Jail = Jail;

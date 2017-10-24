@@ -5,3 +5,4 @@ class Parking extends BoardItem {
     this.Reward = reward;
   }
 }
+exports.Parking = Parking;

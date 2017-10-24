@@ -7,3 +7,4 @@ class ToJail extends BoardItem {
     //TODO: Implement Go to Jail
   }
 }
+exports.ToJail = ToJail;

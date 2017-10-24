@@ -48,6 +48,7 @@ class Board {
           fieldData[fieldData.length+1] = boardField
         }
       })
+      this.Fields = fieldData
     }
   }
 }

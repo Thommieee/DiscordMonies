@@ -1,5 +1,5 @@
 var BoardItem = require('../containers/boarditem.js').BoardItem;
-class Chance extends BoardItem {
+class Chest extends BoardItem {
   constructor(name) {
     super(name)
   }
@@ -7,3 +7,4 @@ class Chance extends BoardItem {
     //TODO: Implement Community Chest Cards
   }
 }
+exports.Chest = Chest;

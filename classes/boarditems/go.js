@@ -8,3 +8,4 @@ class Go extends BoardItem {
     player.modifyCash(this.Reward);
   }
 }
+exports.Go = Go;

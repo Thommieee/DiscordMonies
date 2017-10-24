@@ -8,3 +8,4 @@ class Tax extends BoardItem {
     player.modifyCash(-(this.cost))
   }
 }
+exports.Tax = Tax;
