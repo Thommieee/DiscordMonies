@@ -1,9 +1,10 @@
 var BoardItem = require('../containers/boarditem.js').BoardItem;
 class Go extends BoardItem {
-  constructor() {
+  constructor(reward) {
     super("Go")
+    this.Reward = reward;
   }
   onPass(player) {
-    player.modifyCash(200);
+    player.modifyCash(this.Reward);
   }
 }

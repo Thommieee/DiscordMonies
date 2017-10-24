@@ -7,7 +7,9 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-
+  if (msg.content == "mb:test") {
+    var board = new DiscordMonies.Board('default');
+  }
 });
 
 client.login('MzUxMzYwODI4MDQ3MzYwMDAx.DIRdyA.pT1CtRN8yoa4OK8vuwpJxd3uDWU');
