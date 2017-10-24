@@ -11,15 +11,16 @@ exports.runCommand = function(user, args, msgo, DiscordMonies) {
       }
     } else {
       var found = false;
-      Object.keys(DiscordMonies.Games).forEach(function(elem, index) {
+      for (let key in DiscordMonies.Games) {
+        let elem = DiscordMonies.Games[key];
         if (found == false && elem.Started == false && elem.players.length < 4) {
           found = true;
           var Player = new DiscordMonies.Player(user, elem);
           DiscordMonies.Players[Player.ID] = Player
           elem.players[elem.players.length] = Player
-          msgo.reply("Joined game: "+ index)
+          msgo.reply("Joined game: " + key)
         }
-      })
+      }
     }
   }
 }
