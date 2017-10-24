@@ -1,7 +1,6 @@
 class BoardItem {
-  constructor(name, position) {
+  constructor(name) {
     this.name = name;
-    this.position = position;
   }
 }
 exports.BoardItem = BoardItem;

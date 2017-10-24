@@ -1,7 +1,7 @@
 var Purchasable = require('../containers/purchasable.js').Purchasable;
 class Utility extends Purchasable {
-  constructor(name, position, purchaseValue) {
-    super(name, position, purchaseValue)
+  constructor(name, purchaseValue) {
+    super(name, purchaseValue)
   }
   onStep(player) {
     player.modifyCash(-100);

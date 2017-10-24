@@ -4,6 +4,7 @@ exports.Structures = {
 };
 exports.BoardItems = {
   Property:require('./boarditems/property.js').Property,
+  Go:require('./boarditems/go.js').Go,
   Station:require('./boarditems/station.js').Station,
   Utiity:require('./boarditems/utility.js').Utility,
 };
