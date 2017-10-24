@@ -43,6 +43,9 @@ class Board {
         } else if (item.Type == "Parking") {
           var boardField = new Parking(item.Name, boardData.Misc.FreeParkingReward)
           fieldData[fieldData.length+1] = boardField
+        } else if (item.Type == "ToJail") {
+          var boardField = new ToJail(item.Name);
+          fieldData[fieldData.length+1] = boardField
         }
       })
     }
