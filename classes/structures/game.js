@@ -40,6 +40,7 @@ class Game {
       }
       if (i==steps) {
         newPos.onStep(plr)
+        plr.Position = this.Game.Board.Fields.indexOf(newPos)
       }
     }
   }
