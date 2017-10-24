@@ -3,6 +3,14 @@ const client = new Discord.Client();
 var DiscordMonies = require('./classes/classloader.js');
 var prefix = require('./data.json').prefix
 
+global.logType = {
+  debug: 0,
+  info: 1,
+  warning: 2,
+  critical: 3,
+  good: 4
+}
+
 global.log = function(logMessage, type = logType.debug) {
   if (logMessage == null) {
       return;
@@ -95,7 +103,6 @@ client.on('ready', () => {
 client.on('message', msg => {
   if (msg.content.startsWith(prefix)) {
     var args = msg.content.substr(3).split(" ");
-    console.log(require("fs").existsSync('commands/'+args[0]+'.js'))
     if (require("fs").existsSync('commands/'+args[0]+'.js')) {
       try {
         require('./commands/'+args[0]+'.js').runCommand(msg.author, args, msg, DiscordMonies)
@@ -119,8 +126,8 @@ client.on('message', msg => {
           embed.setDescription("Discord Monies has run into a problem trying to process that command.");
         }
         
-        message.channel.send("", {embed: embed});
-        message.channel.stopTyping(true);
+        msg.channel.send("", {embed: embed});
+        msg.channel.stopTyping(true);
       }
     }
   }
