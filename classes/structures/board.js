@@ -51,19 +51,19 @@ class Board {
       this.Fields = fieldData
     }
   }
-  getInfo(fieldResolve, info) {
+  getInfo(fieldResolve) {
     var fields = this.Fields
+    var returnValue = null;
     if (parseInt(fieldResolve)) {
       return fields[parseInt(fieldResolve)][info]
     } else {
       this.Fields.forEach(function(elem, index) {
         if (elem.name == fieldResolve) {
-          var name = elem.name
-          console.log(name) // Brown 1
-          return name // undefined
+          returnValue = elem
         }
       })
     }
+    return returnValue
   }
 }
 

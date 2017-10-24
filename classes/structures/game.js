@@ -6,15 +6,17 @@ class Game {
     this.Board = null;
   }
   getPlayer(userResolve) {
+    var returnValue = null;
     if (parseInt(userResolve)) {
-      return this.players[parseInt(userResolve)]
+      returnValue = this.players[parseInt(userResolve)]
     } else {
       this.players.forEach(function(elem, index) {
         if (elem == userResolve) {
-          return this.players[index]
+          returnValue = this.players[index]
         }
       })
     }
+    return returnValue
   }
 
   loadBoard(boardid) {
