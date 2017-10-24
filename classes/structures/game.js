@@ -4,6 +4,8 @@ class Game {
     this.id = id;
     this.players = [];
     this.Board = null;
+    this.Started = false;
+    this.currentPlayer = null;
   }
   getPlayer(userResolve) {
     var returnValue = null;

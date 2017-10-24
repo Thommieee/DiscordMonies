@@ -26,3 +26,6 @@ structuredir.forEach(function(filename) {
     exports[thing] = data[thing]
   })
 });
+
+exports.Games = {}
+exports.Players = {}
