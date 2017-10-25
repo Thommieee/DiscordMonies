@@ -25,7 +25,7 @@ global.log = function(logMessage, type = logType.debug) {
 
   var logFormatting;
   var logString;
-  
+
   var lines = logMessage.split("\n");
 
   for (i = 0; i < lines.length; i++) {
@@ -88,7 +88,7 @@ global.log = function(logMessage, type = logType.debug) {
       }
 
       var logOutput = logFormatting + logString + "\x1b[0m";
-      
+
       console.log("[" + new Date().toLocaleTimeString("us", {
           hour12: false
       }) + "] " + logOutput);
@@ -102,11 +102,34 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   if(msg.author.bot) return;
-  if (msg.content.startsWith(prefix)) {
-    var args = msg.content.substr(3).split(" ");
+  if (msg.content.startsWith(prefix) || msg.guild == null) {
+    var args;
+    if (msg.content.startsWith(prefix)) { args = msg.content.substr(3).split(" "); } else { args = msg.content.split(" ")}
     if (require("fs").existsSync('commands/'+args[0]+'.js')) {
       try {
-        require('./commands/'+args[0]+'.js').runCommand(msg.author, args, msg, DiscordMonies)
+        var command = require('./commands/'+args[0]+'.js')
+        if (command.DMOnly == true) {
+          if (msg.guild == null) {
+            if (command.GameCommand == true) {
+              if (DiscordMonies.Players[msg.author.id] && DiscordMonies.Players[msg.author.id].Started == true) {
+                command.runCommand(msg.author, args, msg, DiscordMonies)
+              } else {
+                msg.reply("You're not in a game or your game hasn't started yet.")
+              }
+            }
+          }
+        } else {
+          if (command.GameCommand == true) {
+            if (DiscordMonies.Players[msg.author.id] && DiscordMonies.Players[msg.author.id].Game.Started == true) {
+              command.runCommand(msg.author, args, msg, DiscordMonies)
+            } else {
+              msg.reply("You're not in a game or your game hasn't started yet.")
+            }
+          } else {
+            command.runCommand(msg.author, args, msg, DiscordMonies)
+          }
+        }
+
       } catch(err) {
         var embed = new Discord.RichEmbed;
         embed.setColor("#FF0000");
@@ -126,7 +149,7 @@ client.on('message', msg => {
           embed.setFooter("This error has been logged, and we'll look into it.");
           embed.setDescription("Discord Monies has run into a problem trying to process that command.");
         }
-        
+
         msg.channel.send("", {embed: embed});
         msg.channel.stopTyping(true);
       }
