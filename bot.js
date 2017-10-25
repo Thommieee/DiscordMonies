@@ -101,6 +101,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
+  if(msg.author.bot) return;
   if (msg.content.startsWith(prefix)) {
     var args = msg.content.substr(3).split(" ");
     if (require("fs").existsSync('commands/'+args[0]+'.js')) {
