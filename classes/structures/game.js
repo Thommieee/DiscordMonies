@@ -40,7 +40,6 @@ class Game {
     var current = this.Board.Fields[plr.Position];
     for (var i=1;i<=steps;i++) {
       var newPos = next(this.Board.Fields, current);
-      console.log(current.name)
       current = newPos;
       if (newPos['onPass']) {
         newPos.onPass(plr)

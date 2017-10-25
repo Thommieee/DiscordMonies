@@ -12,7 +12,7 @@ class Player {
     } else {
       this.Leader = false
     }
-    this.Position = 1
+    this.Position = 0
   }
   modifyCash(cash) {
     this.Cash = this.Cash + cash
