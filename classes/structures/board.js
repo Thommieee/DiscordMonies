@@ -21,31 +21,31 @@ class Board {
           fieldData[0] = boardField;
         } else if (item.Type == "Property") {
           var boardField = new Property(item.Name, item.Price, item.Color, item.HouseCost, item.Cost, item.CostSet, item.CostHouse, item.CostHouse2, item.CostHouse3, item.CostHouse4, item.CostHotel, item.MortgageCost, item.UnmortgageCost);
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "Chest") {
           var boardField = new Chest(item.Name)
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "Tax") {
           var boardField = new Tax(item.Name, item.Cost)
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "Station") {
           var boardField = new Station(item.Name, item.Price)
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "Chance") {
           var boardField = new Chance(item.Name)
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "Jail") {
           var boardField = new Jail(item.Name)
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "Utility") {
           var boardField = new Utility(item.Name, item.Price)
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "Parking") {
           var boardField = new Parking(item.Name, boardData.Misc.FreeParkingReward)
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         } else if (item.Type == "ToJail") {
           var boardField = new ToJail(item.Name);
-          fieldData[fieldData.length+1] = boardField
+          fieldData[fieldData.length] = boardField
         }
       })
       this.Fields = fieldData

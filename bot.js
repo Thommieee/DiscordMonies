@@ -111,7 +111,7 @@ client.on('message', msg => {
         if (command.DMOnly == true) {
           if (msg.guild == null) {
             if (command.GameCommand == true) {
-              if (DiscordMonies.Players[msg.author.id] && DiscordMonies.Players[msg.author.id].Started == true) {
+              if (DiscordMonies.Players[msg.author.id] && DiscordMonies.Players[msg.author.id].Game.Started == true) {
                 command.runCommand(msg.author, args, msg, DiscordMonies)
               } else {
                 msg.reply("You're not in a game or your game hasn't started yet.")
