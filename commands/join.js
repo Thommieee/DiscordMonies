@@ -7,7 +7,7 @@ exports.runCommand = function(user, args, msgo, DiscordMonies) {
         var Player = new DiscordMonies.Player(user, DiscordMonies.Games[args[1]]);
         DiscordMonies.Players[Player.ID] = Player
         DiscordMonies.Games[args[1]].players[DiscordMonies.Games[args[1]].players.length] = Player
-        msgo.reply("Joined game: "+args[1])
+        Player.Game.announce("**" + Player.user.username + "** has joined the game!")
       }
     } else {
       var found = false;
@@ -18,7 +18,7 @@ exports.runCommand = function(user, args, msgo, DiscordMonies) {
           var Player = new DiscordMonies.Player(user, elem);
           DiscordMonies.Players[Player.ID] = Player
           elem.players[elem.players.length] = Player
-          msgo.reply("Joined game: " + key)
+          Player.Game.announce("**" + Player.user.username + "** has joined the game!")
         }
       }
     }

@@ -39,6 +39,14 @@ class Game {
     if (board) { this.Board=board }
   }
 
+  restructure() {
+    var newArray = [];
+    this.players.forEach(function(plr) {
+      newArray[newArray.length] = plr
+    })
+    this.players = newArray
+  }
+
   advanceTurn() {
     if (this.Started == true) {
       this.currentPlayer = next(this.players, this.currentPlayer)
