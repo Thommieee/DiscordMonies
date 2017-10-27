@@ -23,7 +23,17 @@ class Game {
     }
     return returnValue
   }
-
+  announce(message, ignorePlayer) {
+    this.players.forEach(function(elem) {
+      if (ignorePlayer) {
+        if (ignorePlayer.ID != elem.ID) {
+          elem.Player.send(message)
+        }
+      } else {
+        elem.Player.send(message)
+      }
+    })
+  }
   loadBoard(boardid) {
     var board = new Board(boardid);
     if (board) { this.Board=board }
@@ -33,6 +43,7 @@ class Game {
     if (this.Started == true) {
       this.currentPlayer = next(this.players, this.currentPlayer)
       this.currentPlayer.needsToRoll=true;
+      this.announce("The current player is: " + this.currentPlayer.Username)
     }
   }
 
