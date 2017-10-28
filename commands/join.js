@@ -18,7 +18,7 @@ exports.runCommand = function(user, args, msgo, DiscordMonies) {
           var Player = new DiscordMonies.Player(user, elem);
           DiscordMonies.Players[Player.ID] = Player
           elem.players[elem.players.length] = Player
-          Player.Game.announce("**" + Player.user.username + "** has joined the game!")
+          Player.Game.announce("**" + user.username + "** has joined the game!")
         }
       }
     }
