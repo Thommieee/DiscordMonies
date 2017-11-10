@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "name": "node bot"
+    "start": "node bot"
   },
   "repository": {
     "type": "git",
