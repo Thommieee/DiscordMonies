@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 var DiscordMonies = require('./classes/classloader.js');
-var prefix = require('./data.json').prefix
+var prefix = "mb:"
 
 global.logType = {
   debug: 0,
