@@ -157,4 +157,4 @@ client.on('message', msg => {
   }
 });
 
-client.login(require('./data.json').token);
+client.login(process.env.token);
